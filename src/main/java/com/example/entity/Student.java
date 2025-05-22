@@ -11,6 +11,7 @@ public class Student extends Account {
     private String birth;
     private String avatar;
 
+    @Override
     public Integer getId() {
         return id;
     }

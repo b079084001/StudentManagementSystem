@@ -1,5 +1,7 @@
 package com.example.common;
 
+import com.example.common.enums.ResultCodeEnum;
+
 public class Result {
     private String code;
     private String msg;
@@ -13,30 +15,38 @@ public class Result {
     }
 
     public static Result success() {
-        Result result = new Result();
-        result.setCode("200");
-        result.setMsg("请求成功");
-        return result;
+        Result tResult = new Result();
+        tResult.setCode(ResultCodeEnum.SUCCESS.code);
+        tResult.setMsg(ResultCodeEnum.SUCCESS.msg);
+        return tResult;
     }
 
     public static Result success(Object data) {
-        Result result = success();
-        result.setData(data);
-        return result;
+        Result tResult = new Result (data);
+        tResult.setCode(ResultCodeEnum.SUCCESS.code);
+        tResult.setMsg(ResultCodeEnum.SUCCESS.msg);
+        return tResult;
     }
 
     public static Result error() {
-        Result result = new Result();
-        result.setCode("500");
-        result.setMsg("请求失败");
-        return result;
+        Result tResult = new Result();
+        tResult.setCode(ResultCodeEnum.SYSTEM_ERROR.code);
+        tResult.setMsg(ResultCodeEnum.SYSTEM_ERROR.msg);
+        return tResult;
     }
 
-    public static Result error(String msg) {
-        Result result = new Result();
-        result.setCode("500");
-        result.setMsg(msg);
-        return result;
+    public static Result error(String code, String msg) {
+        Result tResult = new Result();
+        tResult.setCode(code);
+        tResult.setMsg(msg);
+        return tResult;
+    }
+
+    public static Result error(ResultCodeEnum resultCodeEnum) {
+        Result tResult = new Result();
+        tResult.setCode(resultCodeEnum.code);
+        tResult.setMsg(resultCodeEnum.msg);
+        return tResult;
     }
 
     public String getCode() {

@@ -1,10 +1,13 @@
 package com.example.controller;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.example.common.Result;
-import com.example.common.RoleEnum;
+import com.example.common.enums.ResultCodeEnum;
+import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
 import com.example.service.AdminService;
+import com.example.service.OrdersService;
 import com.example.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +22,8 @@ public class WebController {
     @Resource
     private StudentService studentService;
 
+    @Resource
+    OrdersService ordersService;
     /**
      * 默认请求接口
      */
@@ -41,18 +46,29 @@ public class WebController {
         } else if (RoleEnum.STUDENT.name().equals(account.getRole())) {
             dbAccount = studentService.login(account);
         } else {
-            return Result.error("角色错误");
+            return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
         }
 
         return Result.success(dbAccount);
     }
 
+
     @PostMapping("/register")
     public Result register(@RequestBody Account account) {
-        if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword())) {
-            return Result.error("账号或密码必填");
+        if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword()) || ObjectUtil.isEmpty(account.getRole()))
+        {
+            return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
         }
         studentService.register(account);
+        return Result.success();
+    }
+
+    @PutMapping("/password")
+    public Result password(@RequestBody Account account) {
+        if(StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPhone())){
+            return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
+        }
+        studentService.resetPassword(account);
         return Result.success();
     }
 }

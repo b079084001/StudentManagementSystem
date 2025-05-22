@@ -25,9 +25,11 @@
     </div>
 
     <div class="card">
-      <el-pagination v-model:pageSize="data.pageSize" v-model:current-page="data.pageNum"
+      <el-pagination v-model:pageSize="data.pageSize"
+                     v-model:current-page="data.pageNum"
                      @current-change="handleCurrentChange"
-                     background layout="prev, pager, next" :total="data.total"/>
+                     background layout="prev, pager, next"
+                     :total="data.total"/>
     </div>
 
     <el-dialog width="30%" v-model="data.formVisible" title="成绩信息">

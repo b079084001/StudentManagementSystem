@@ -7,10 +7,24 @@
           <el-form-item prop="username">
             <el-input style="width: 100%" prefix-icon="User" v-model="data.form.username" placeholder="请输入账号"/>
           </el-form-item>
+
           <el-form-item prop="password">
             <el-input show-password style="width: 100%" prefix-icon="Lock" v-model="data.form.password"
                       placeholder="请输入密码"/>
           </el-form-item>
+
+          <el-form-item prop="confirmPass">
+            <el-input show-password style="width: 100%" prefix-icon="Lock" v-model="data.form.confirmPass"
+                      placeholder="请确认密码"/>
+          </el-form-item>
+
+          <el-form-item prop="role">
+            <el-select style="width: 100%" v-model="data.form.role">
+              <el-option value="ADMIN" label="管理员"></el-option>
+              <el-option value="STUDENT" label="学生"></el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item>
             <el-button type="primary" style="width:100%" @click="register">注册</el-button>
           </el-form-item>
@@ -30,8 +44,19 @@ import router from "@/router/index";
 import request from "@/utils/request";
 
 const data = reactive({
-  form: {}
+  form: {role: 'ADMIN'},
+  confirmPass: ''
 })
+
+const validatePassword = (rule, confirmPass, callback) => {
+  if (confirmPass === '') {
+    callback(new Error('请确认密码'))
+  } else if (confirmPass !== data.form.password) {
+    callback(new Error('两次输入的密码不一致'))
+  } else {
+    callback()
+  }
+}
 
 const rules = reactive({
   username: [
@@ -40,7 +65,14 @@ const rules = reactive({
   password: [
     {required: true, message: '请输入密码', trigger: 'blur'},
   ],
+  confirmPass: [
+    {validator: validatePassword, required: true, message: '请确认密码', trigger: 'blur'}
+  ],
+  role: [
+    {required: true, message: '请选择角色', trigger: 'blur'},
+  ]
 })
+
 
 const formRef = ref()
 

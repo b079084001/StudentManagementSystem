@@ -1,11 +1,40 @@
 package com.example.entity;
 
 public class Account {
+    private Integer id;
     private String username;
     private String password;
     private String name;
 
+    private String phone;
     private String role;
+    private String token;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getRole() {
         return role;

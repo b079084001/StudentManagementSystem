@@ -14,10 +14,17 @@ spring:
       max-request-size: 100MB
 
 # 配置mybatis实体和xml映射
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml,classpath*:/mapper/**/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
 
+files:
+  upload:
+    path: D:\Study\学生成绩管理系统\Student-performance-management-system完善版\files2022\
 ip: localhost

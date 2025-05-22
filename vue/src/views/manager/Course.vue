@@ -142,6 +142,7 @@ const handleEdit = (row) => {
   data.form = JSON.parse(JSON.stringify(row))
   data.formVisible = true
 }
+
 const handleDelete = (id) => {
   ElMessageBox.confirm(
       '删除后数据无法恢复，您确定删除吗?', '删除确认', {type: 'warning'}).then(res => {

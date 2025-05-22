@@ -8,6 +8,8 @@ public class Admin extends Account{
     private String password;
     private String name;
 
+
+
     public Integer getId() {
         return id;
     }

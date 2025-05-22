@@ -1,6 +1,7 @@
 package com.example.service;
 
 
+import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.StudentCourse;
 import com.example.exception.CustomException;
 import com.example.mapper.StudentCourseMapper;
@@ -19,7 +20,7 @@ public class StudentCourseService {
     public void add(StudentCourse studentCourse) {
         StudentCourse course = studentCourseMapper.selectByCondition(studentCourse); //看下学生之前有无选择
         if (course != null) {
-            throw new CustomException("已经选择该课程");
+            throw new CustomException(ResultCodeEnum.USER_ACCOUNT_ERROR);
         }
         studentCourseMapper.insert(studentCourse);
     }

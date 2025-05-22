@@ -3,6 +3,19 @@
     <div class="card" style="width: 50%;padding: 40px">
       <el-form :model="data.form" ref="formRef" label-width="100px" label-position="right"
                style="padding-right: 40px">
+        <el-form-item label="头像">
+          <el-upload class="avatar-uploader"
+                     action="http://localhost:9090/files/upload"
+                     :headers="{token: data.form.token}"
+                     :show-file-list="false"
+                     :on-success="handleImgUploadSuccess"
+          >
+            <img v-if="data.form.avatar" :src="data.form.avatar" class="avatar"/>
+            <el-icon v-else class="avatar-uploader-icon">
+              <Plus/>
+            </el-icon>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="学生账号">
           <el-input v-model="data.form.username" autocomplete="off" disabled/>
         </el-form-item>
@@ -28,15 +41,7 @@
           <el-date-picker style="width: 100%" format="YYYY-MM-DD" value-format="YYYY-MM-DD"
                           v-model="data.form.birth"></el-date-picker>
         </el-form-item>
-        <el-form-item label="头像">
-          <el-upload class="avatar-uploader" action="http://localhost:9090/files/upload" :show-file-list="false"
-                     :on-success="handleImgUploadSuccess">
-            <img v-if="data.form.avatar" :src="data.form.avatar" class="avatar"/>
-            <el-icon v-else class="avatar-uploader-icon">
-              <Plus/>
-            </el-icon>
-          </el-upload>
-        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="update">保 存</el-button>
         </el-form-item>
@@ -56,14 +61,21 @@ const data = reactive({
 })
 
 const handleImgUploadSuccess = (res) => {
+  //把头像属性更换成上传的图片链接
   data.form.avatar = res.data
 }
+
+const emits = defineEmits(['update:user'])
 
 const update = () => {
   request.put('/student/update', data.form).then(res => {
     if (res.code === "200") {
       ElMessage.success("操作成功")
-      router.push('/login')
+      // router.push('/login')
+      //更新浏览器缓存信息
+      localStorage.setItem('student-user',JSON.stringify(data.form))
+      //触发父级数据更新
+      emits('update:user',data.form)
     } else {
       ElMessage.error(res.msg)
     }

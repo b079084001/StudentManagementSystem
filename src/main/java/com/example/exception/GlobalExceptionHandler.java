@@ -26,6 +26,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     @ResponseBody//返回json串
     public Result customError(HttpServletRequest request, CustomException e){
-        return Result.error(e.getMsg());
+        return Result.error(e.getCode(), e.getMsg());
     }
 }

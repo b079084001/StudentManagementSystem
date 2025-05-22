@@ -1,5 +1,6 @@
 package com.example.mapper;
 
+import com.example.entity.Account;
 import com.example.entity.Student;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -21,10 +22,13 @@ public interface StudentMapper {
 
     @Update("update student set username=#{username},password=#{password},name=#{name}, phone=#{phone}, email=#{email}, " +
             "sex=#{sex} ,birth=#{birth}, avatar=#{avatar} where id=#{id}")
-    void updateById(Student student);
+    void updateById(Account student);
 
     @Select("select * from student where username like concat('%',#{username},'%') and name like concat('%',#{name},'%')")
     List<Student> selectAll(Student student);
+
+    @Select("select * from student where id=#{id}")
+    Account selectById(Integer id);
 }
 
 
