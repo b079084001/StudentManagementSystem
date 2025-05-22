@@ -1,6 +1,5 @@
 package com.example.mapper;
-
-import com.example.enetity.Admin;
+import com.example.entity.Admin;
 import org.apache.ibatis.annotations.Select;
 
 public interface AdminMapper {

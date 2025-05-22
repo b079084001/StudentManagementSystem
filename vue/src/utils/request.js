@@ -1,9 +1,10 @@
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
 import router from '../router'
 import axios from "axios";
 
 const request = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
+    // baseURL: 'http://localhost:9090',
     timeout: 30000  // 后台接口超时时间设置
 })
 
@@ -16,7 +17,7 @@ request.interceptors.request.use(config => {
     return Promise.reject(error)
 });
 
-// response 拦截器
+// response 拦截器d
 // 可以在接口响应后统一处理结果
 request.interceptors.response.use(
     response => {
@@ -32,11 +33,11 @@ request.interceptors.response.use(
         // 当权限验证不通过的时候给出提示
         if (res.code === '401') {
             ElMessage.error(res.msg);
-            router.push("/login")
+            router.push('/login')
         }
         return res;
     },
-        error => {
+    error => {
         console.log('err' + error)
         return Promise.reject(error)
     }
